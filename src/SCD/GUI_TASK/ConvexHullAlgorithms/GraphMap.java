@@ -78,16 +78,8 @@ public class GraphMap extends JFrame {
         for (int i = 0; i < dataPoints.size(); i++) {
             int x = 50 + dataPoints.get(i).x * 5;
             int y = 350 - dataPoints.get(i).y * 3;
-//            x_Plotted_Array.add(x);
-//            y_Plotted_Array.add(y);
             g.fillOval(x - 3, y - 3, 6, 6);
 
-            /**
-             if ((i < dataPoints.size() - 1) && count <2) {
-             // Draw a line to the next point
-             int x2 = 50 + dataPoints.get(i + 1).x * 5;
-             int y2 = 350 - dataPoints.get(i + 1).y * 3;
-             }*/
         }
 
         //
@@ -118,46 +110,37 @@ public class GraphMap extends JFrame {
         System.out.println("Min index = " + MIN_X_POINT_INDEX);
 
 
-        for (int i = MIN_X_POINT_INDEX; i < (x_Plotted_Array.size() / 2) - 1; i++) {
-            for (int j = MIN_X_POINT_INDEX; j < (y_Plotted_Array.size() / 2) - 1; j++) {
+        for (int i = MIN_X_POINT_INDEX; i < (x_Plotted_Array.size() / 2) - 2; i++) {
+            for (int j = MIN_X_POINT_INDEX; j < (y_Plotted_Array.size() / 2) - 2; j++) {
 
-                if (CanIdrawLine(x_Plotted_Array.get(i), y_Plotted_Array.get(i),x_Plotted_Array.get(j+1), y_Plotted_Array.get(j+1))) {
-                    g.drawLine(x_Plotted_Array.get(i), y_Plotted_Array.get(i),
-                            x_Plotted_Array.get(j + 1), y_Plotted_Array.get(j + 1));
-                }
+//                if (CanIdrawLine(x_Plotted_Array.get(i), y_Plotted_Array.get(i),x_Plotted_Array.get(j+1), y_Plotted_Array.get(j+1),x_Plotted_Array.get(j+2), y_Plotted_Array.get(j+2))) {
+                g.drawLine(x_Plotted_Array.get(i), y_Plotted_Array.get(i),
+                        x_Plotted_Array.get(j + 1), y_Plotted_Array.get(j + 1));
+//                }
 
             }
         }
 
-
-//creating a time function
     }
 
-    boolean CanIdrawLine(int x1,int y1,int x2,int y2) {
-        // Calculate the slope of the line between the two given points
-//        double slope = (double) (y2 - y1) / (x2 - x1);
-//
-//        // Iterate through all the data points
-//        for (int i = 0; i < dataPoints.size(); i++) {
-//            if (i != x_Plotted_Array.indexOf(x1) && i != x_Plotted_Array.indexOf(x2)) {
-//                int x3 = dataPoints.get(i).x;
-//                int y3 = dataPoints.get(i).y;
-//
-//                // Calculate the slope of the line between the two given points and the current data point
-//                double pointSlope = (double) (y3 - y1) / (x3 - x1);
-//
-//                // Check if the point is on the left or right side of the line
-//                if (pointSlope < slope) {
-//                    // The point is on the left side of the line
-//                    return false;
-//                }
-//            }
+    /**
+     * where a = y2 − y1, b = x1 − x2, c = x1y2 − y1x2.
+     *
+     * Second, such a line divides the plane into two half-planes: for all the points in one of them,
+     * ax + by > c, while for all the points in the other, ax + by < c. (For the points on the line itself, of course, ax + by = c.)
+     * Thus, to check whether certain points lie on the same side of the line, we can simply check whether the expression ax + by − c has
+     * the same sign for each of these points. We leave the implementation details as an exercise.*/
+
+//    boolean CanIdrawLine(int ax,int ay,int bx,int by,int cx,int cy) {
+//        int val  = ((bx-ax)*(cy-ay))-((by-ay)*(cx-ax));
+//        if (val < 0) {
+//            return false;
+//        }else{
+//            return true;
 //        }
-//
-//        // All points are either on the right side of the line
-//        return true;
-    return true;
-    }
+//    }
+
+
 
     public static void main(String[] args) {
         ArrayList<Integer> xValues = new ArrayList<>();
