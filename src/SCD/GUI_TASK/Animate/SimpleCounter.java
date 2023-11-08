@@ -1,48 +1,78 @@
 package SCD.GUI_TASK.Animate;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SimpleCounter extends JFrame {
+public class SimpleCounter {
+    private JFrame frame;
     private JLabel counterLabel;
-    private int seconds = 0;
-    private Timer timer;
+    private JButton startButton;
+    private int count = 0;
+    private boolean counting = false;
 
     public SimpleCounter() {
-        counterLabel = new JLabel("Seconds: 0");
-        add(counterLabel);
+        frame = new JFrame("Counter App");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new FlowLayout());
 
-        timer = new Timer(1000, new ActionListener() {
+        counterLabel = new JLabel("0 seconds");
+        frame.add(counterLabel);
+
+        startButton = new JButton("Start");
+        startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                seconds++;
-                counterLabel.setText("Seconds: " + seconds);
+                startCounting();
             }
         });
+        frame.add(startButton);
 
-        timer.start();
+        frame.pack();
+        frame.setVisible(true);
+    }
 
-        // Simulate your for loop here
-        for (int i = 0; i < 10; i++) {
-            // Replace this with your actual loop logic
-            try {
-                Thread.sleep(1000); // Simulate some work for 1 second
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    public void startCounting() {
+        if (counting) {
+            return; // Already counting
         }
 
-        timer.stop();
-        counterLabel.setText("Seconds: " + seconds);
+        counting = true;
+        startButton.setEnabled(false);
+
+        Thread countThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long startTime = System.currentTimeMillis();
+
+                // Simulate a time-consuming operation, replace this with your actual loop
+                for (int i = 0; i < 10000000; i++) {
+                    // Your loop logic here
+                }
+
+                long endTime = System.currentTimeMillis();
+                final long totalTime = endTime - startTime;
+
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        counterLabel.setText(totalTime / 1000 + " seconds");
+                        counting = false;
+                        startButton.setEnabled(true);
+                    }
+                });
+            }
+        });
+        countThread.start();
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            SimpleCounter frame = new SimpleCounter();
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(200, 100);
-            frame.setVisible(true);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new SimpleCounter();
+            }
         });
     }
 }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class buteForce extends JFrame {
+    JLabel l;
     private ArrayList<Integer> xArray;
     private ArrayList<Integer> yArray;
     private ArrayList<Point> dataPoints;
@@ -30,6 +31,12 @@ public class buteForce extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        JLabel l = new JLabel("0");
+        l.setBounds(0,430,200,80);
+        l.setFont(new Font("AERIAL", Font.BOLD, 25));
+        l.setForeground(new Color(181, 255, 0));
+
+
         JPanel graphPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -39,14 +46,18 @@ public class buteForce extends JFrame {
         };
 
 
+        graphPanel.add(l);
         graphPanel.setBackground(new Color(1, 28, 35));
         add(graphPanel);
         setVisible(true);
 
-        animationTimer = new Timer(300, new ActionListener() {
+
+        animationTimer = new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 animationStep++;
+                l.setText(String.valueOf(animationStep));
+
                 if (animationStep <= dataPoints.size()) {
                     repaint();
                 } else {
@@ -98,11 +109,14 @@ public class buteForce extends JFrame {
                 boolean isOnLeft = true;
                 boolean isOnRight = true;
 
+
                 for (int k = 0; k < numPointsToInclude; k++) {
                     if (k != i && k != j) {
                         Point p3 = dataPoints.get(k);
                         int crossProduct = (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x);
 
+                        g.setColor(Color.RED);
+                        g.drawLine(50 + p1.x * 5, 350 - p1.y * 3, 50 + p2.x * 5, 350 - p2.y * 3);
                         if (crossProduct > 0) {
                             isOnRight = false;
                         } else if (crossProduct < 0) {
