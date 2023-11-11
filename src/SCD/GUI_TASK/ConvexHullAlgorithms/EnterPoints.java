@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 public class EnterPoints extends JFrame {
 
-JButton check;
+    JButton check;
+
     EnterPoints() {
         setTitle("CONVEX HULL K213868");
         setSize(300, 400);
@@ -38,7 +39,7 @@ JButton check;
         p.add(scrollPane);
 
         check = new JButton("CHECK");
-        check.setBounds(40,250,150,20);
+        check.setBounds(40, 250, 150, 20);
         check.setFocusable(false);
         check.setBackground(new Color(255, 255, 255));
         check.setFont(new Font("AERIAL", Font.BOLD, 12));
@@ -83,10 +84,13 @@ JButton check;
                     return;
                 }
 
-                new buteForce(xValues, yValues);
+                if (xValues.size() <= 2 || yValues.size() <= 2) {
+                    JOptionPane.showMessageDialog(null, "Convex hull coordinates > 2, please cooperate", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    new buteForce(xValues, yValues);
+                }
             }
         });
-
 
 
         add(p);

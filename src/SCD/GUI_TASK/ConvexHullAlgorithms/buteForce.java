@@ -10,11 +10,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class buteForce extends JFrame {
-    JLabel l;
+    JLabel l,seconds,milliseconds;
     private ArrayList<Integer> xArray;
     private ArrayList<Integer> yArray;
     private ArrayList<Point> dataPoints;
+    private long startTime;
     private int animationStep = 0;
+    int count =0;
     private Timer animationTimer;
 
     public buteForce(ArrayList<Integer> xArray, ArrayList<Integer> yArray) {
@@ -32,10 +34,38 @@ public class buteForce extends JFrame {
         setLocationRelativeTo(null);
 
         JLabel l = new JLabel("0");
-        l.setBounds(0,430,200,80);
+        l.setBounds(300,0,200,80);
         l.setFont(new Font("AERIAL", Font.BOLD, 25));
         l.setForeground(new Color(181, 255, 0));
 
+        JLabel t = new JLabel("Total Time ");
+        t.setBounds(50,355,200,80);
+        t.setFont(new Font("AERIAL", Font.BOLD, 18));
+        t.setForeground(new Color(181, 255, 0));
+
+        JLabel milli = new JLabel("Milliseconds : ");
+        milli.setBounds(50,375,200,80);
+        milli.setFont(new Font("AERIAL", Font.BOLD, 14));
+        milli.setForeground(new Color(181, 255, 0));
+
+         milliseconds = new JLabel("0");
+        milliseconds.setBounds(170,375,200,80);
+        milliseconds.setFont(new Font("AERIAL", Font.BOLD, 14));
+        milliseconds.setForeground(new Color(181, 255, 0));
+
+        JLabel sec = new JLabel("Seconds : ");
+        sec.setBounds(50,395,200,80);
+        sec.setFont(new Font("AERIAL", Font.BOLD, 14));
+        sec.setForeground(new Color(181, 255, 0));
+
+
+        seconds = new JLabel("0");
+        seconds.setBounds(170,395,200,80);
+        seconds.setFont(new Font("AERIAL", Font.BOLD, 14));
+        seconds.setForeground(new Color(181, 255, 0));
+
+        JButton back = new JButton("Back");
+        back.setBounds(400,395,50,25);
 
         JPanel graphPanel = new JPanel() {
             @Override
@@ -46,13 +76,22 @@ public class buteForce extends JFrame {
         };
 
 
+        graphPanel.setLayout(null);
         graphPanel.add(l);
+        graphPanel.add(milli);
+        graphPanel.add(back);
+        graphPanel.add(milliseconds);
+        graphPanel.add(seconds);
+        graphPanel.add(sec);
+        graphPanel.add(t);
+
         graphPanel.setBackground(new Color(1, 28, 35));
         add(graphPanel);
         setVisible(true);
 
+        startTime = System.currentTimeMillis();
 
-        animationTimer = new Timer(150, new ActionListener() {
+        animationTimer = new Timer(170, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 animationStep++;
@@ -62,6 +101,12 @@ public class buteForce extends JFrame {
                     repaint();
                 } else {
                     animationTimer.stop();
+                    long endTime = System.currentTimeMillis();  // Record the end time
+                    long elapsedTime = endTime - startTime;
+                    System.out.println("Convex Hull Computation Time: " + elapsedTime + " milliseconds or " + (elapsedTime)/1000 + " Seconds ");
+                    milliseconds.setText(String.valueOf(elapsedTime) + "  milliseconds");
+                    seconds.setText(String.valueOf((elapsedTime)/1000) + "  seconds");
+
                 }
             }
         });
@@ -108,7 +153,6 @@ public class buteForce extends JFrame {
                 Point p2 = dataPoints.get(j);
                 boolean isOnLeft = true;
                 boolean isOnRight = true;
-
 
                 for (int k = 0; k < numPointsToInclude; k++) {
                     if (k != i && k != j) {
