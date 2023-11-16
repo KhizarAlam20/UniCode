@@ -92,10 +92,7 @@ public class EnterPoints extends JFrame {
             }
         });
 
-
         add(p);
-
-
         setResizable(false);
         setVisible(true);
     }

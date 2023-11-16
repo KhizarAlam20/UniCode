@@ -1,73 +1,65 @@
 package SCD.GUI_TASK.Animate;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.Timer;
 
-public class MyPanel extends JPanel implements ActionListener {
+public class MyPanel extends JFrame {
 
-    // Panel dimensions
-    final int PANEL_WIDTH = 420;
-    final int PANEL_HEIGHT = 420;
+    private static final int PANEL_WIDTH = 400;
+    private static final int PANEL_HEIGHT = 400;
 
-    // Image
-    ImageIcon enemy;
-    Image backgroundImage;
-
-    // Speed
-    int xVelocity = 1;
-    int yVelocity = 1;
-
-    // Location
-    int x = 0;
-    int y = 0;
-
-    // Timer
-    Timer timer;
+    private int x1, y1, x2, y2;
+    private int lineAlpha;
 
     public MyPanel() {
-        this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        this.setBackground(new Color(252, 243, 126));
+        // Set up the frame
+        setTitle("Line Animation Example");
+        setSize(PANEL_WIDTH, PANEL_HEIGHT);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Set up initial points and alpha value
+        x1 = 50;
+        y1 = 50;
+        x2 = 350;
+        y2 = 350;
+        lineAlpha = 255; // Initial alpha value for line transparency
 
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("devil.png"));
-        Image i2 = i1.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
-       enemy = new ImageIcon(i2);
+        // Create a timer for animation
+        Timer timer = new Timer(250, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Update line transparency
+                lineAlpha -= 5;
+                if (lineAlpha < 0) {
+                    lineAlpha = 0;
+                    ((Timer) e.getSource()).stop(); // Stop the timer when the line disappears
+                }
+                repaint(); // Trigger paintComponent
+            }
+        });
 
-        // Create a timer to repaint the panel periodically
-        timer = new Timer(1, this); // 10 milliseconds
+        // Start the timer
         timer.start();
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void paint(Graphics g) {
+        super.paint(g);
 
-        Graphics2D g2D = (Graphics2D) g;
-        g2D.drawImage(enemy.getImage(), x, y, null);
+        // Draw the line with the current transparency
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(new Color(0, 0, 0, lineAlpha));
+        g2d.drawLine(x1, y1, x2, y2);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Move the image
-
-        if(x>=PANEL_WIDTH-enemy.getIconWidth() || x<0){
-          xVelocity *= -1;
-        }
-        if(y>=PANEL_HEIGHT-enemy.getIconHeight() || x<0){
-            yVelocity *= -1;
-        }
-        x += xVelocity;
-        y += yVelocity;
-
-
-        // Repaint the panel to update the image's position
-        repaint();
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                MyPanel example = new MyPanel();
+                example.setVisible(true);
+            }
+        });
     }
 }

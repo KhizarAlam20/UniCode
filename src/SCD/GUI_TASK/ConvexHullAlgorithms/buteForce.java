@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class buteForce extends JFrame {
+    private boolean drawRedLines = true;
     JLabel l,seconds,milliseconds;
     private ArrayList<Integer> xArray;
     private ArrayList<Integer> yArray;
@@ -65,7 +66,13 @@ public class buteForce extends JFrame {
         seconds.setForeground(new Color(181, 255, 0));
 
         JButton back = new JButton("Back");
-        back.setBounds(400,395,50,25);
+        back.setBounds(400,395,90,25);
+        back.setFocusable(false);
+        back.setBackground(new Color(0, 19, 23));
+        back.setFont(new Font("AERIAL", Font.BOLD, 15));
+        back.setForeground(new Color(181, 255, 0));
+        back.setBorderPainted(false);
+        back.addActionListener(e -> new HomeScreen());
 
         JPanel graphPanel = new JPanel() {
             @Override
@@ -103,9 +110,11 @@ public class buteForce extends JFrame {
                     animationTimer.stop();
                     long endTime = System.currentTimeMillis();  // Record the end time
                     long elapsedTime = endTime - startTime;
+
                     System.out.println("Convex Hull Computation Time: " + elapsedTime + " milliseconds or " + (elapsedTime)/1000 + " Seconds ");
                     milliseconds.setText(String.valueOf(elapsedTime) + "  milliseconds");
                     seconds.setText(String.valueOf((elapsedTime)/1000) + "  seconds");
+
 
                 }
             }
@@ -146,7 +155,10 @@ public class buteForce extends JFrame {
             g.fillOval(x - 3, y - 3, 6, 6);
         }
 
-        // Brute-force approach to finding the convex hull (use only the points up to the animation step)
+        boolean convexHullCompleted = false;
+        Graphics2D g2d = (Graphics2D) g;
+        int  lineAlpha = 255;
+
         for (int i = 0; i < numPointsToInclude; i++) {
             for (int j = i + 1; j < numPointsToInclude; j++) {
                 Point p1 = dataPoints.get(i);
@@ -159,7 +171,7 @@ public class buteForce extends JFrame {
                         Point p3 = dataPoints.get(k);
                         int crossProduct = (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x);
 
-                        g.setColor(Color.RED);
+                        g2d.setColor(new Color(255, 0, 0, 8));
                         g.drawLine(50 + p1.x * 5, 350 - p1.y * 3, 50 + p2.x * 5, 350 - p2.y * 3);
                         if (crossProduct > 0) {
                             isOnRight = false;
@@ -174,10 +186,36 @@ public class buteForce extends JFrame {
                 }
 
                 if (isOnLeft || isOnRight) {
-                    g.setColor(Color.GREEN);
+                    g2d.setColor(new Color(231, 255, 0, 255));
                     g.drawLine(50 + p1.x * 5, 350 - p1.y * 3, 50 + p2.x * 5, 350 - p2.y * 3);
                 }
             }
+        }
+
+
+        // Check if convex hull is completed
+        if (numPointsToInclude == dataPoints.size()) {
+            convexHullCompleted = true;
+        }
+
+        // If convex hull is completed, remove the red lines
+//        if (convexHullCompleted) {
+//            for (int i = 0; i < numPointsToInclude; i++) {
+//                for (int j = i + 1; j < numPointsToInclude; j++) {
+//                    Point p1 = dataPoints.get(i);
+//                    Point p2 = dataPoints.get(j);
+//                    g.setColor(new Color(1, 28, 35));  // Set color matching your background
+//                    g.drawLine(50 + p1.x * 5, 350 - p1.y * 3, 50 + p2.x * 5, 350 - p2.y * 3);
+//                }
+//            }
+//        }
+
+
+        for (int i = 0; i < dataPoints.size(); i++) {
+            int x = 50 + dataPoints.get(i).x * 5;
+            int y = 350 - dataPoints.get(i).y * 3;
+            g.setColor(new Color(0, 153, 192));
+            g.fillOval(x - 3, y - 3, 6, 6);
         }
     }
 
@@ -205,4 +243,10 @@ public class buteForce extends JFrame {
 
         SwingUtilities.invokeLater(() -> new buteForce(xValues, yValues));
     }
+
 }
+
+
+
+
+
