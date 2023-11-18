@@ -1,5 +1,7 @@
 package SCD.GUI_TASK.ConvexHullAlgorithms;
 
+import SCD.GUI_TASK.Animate.ConvexHullVisualization;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +16,6 @@ public class HomeScreen extends JFrame {
     HomeScreen() {
         setTitle("CONVEX HULL K213868");
         setSize(600, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel p = new JPanel();
@@ -41,13 +42,39 @@ public class HomeScreen extends JFrame {
         LINE_INTERSECTIONS.setFont(new Font("AERIAL", Font.BOLD, 15));
         LINE_INTERSECTIONS.setForeground(new Color(181, 255, 0));
         LINE_INTERSECTIONS.setBorderPainted(false);
+        LINE_INTERSECTIONS.addActionListener(e -> {
+            DrawingApp drawingApp = new DrawingApp();
+            drawingApp.setVisible(true);
+        });
+
 
         BRUTE_FORCE_BUTTON.setFocusable(false);
         BRUTE_FORCE_BUTTON.setBackground(new Color(0, 19, 23));
         BRUTE_FORCE_BUTTON.setFont(new Font("AERIAL", Font.BOLD, 15));
         BRUTE_FORCE_BUTTON.setForeground(new Color(181, 255, 0));
         BRUTE_FORCE_BUTTON.setBorderPainted(false);
-        BRUTE_FORCE_BUTTON.addActionListener(e -> new EnterPoints());
+//        BRUTE_FORCE_BUTTON.addActionListener(e -> new EnterPoints());
+        BRUTE_FORCE_BUTTON.addActionListener(e -> {
+            String[] options = {"Enter Point Method", "Touch Method"};
+            int choice = JOptionPane.showOptionDialog(
+                    this,
+                    "Choose a method:",
+                    "Brute Force Options",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
+
+            if (choice == 0) {
+                // Open the EnterPoint class
+                new EnterPoints();
+            } else if (choice == 1) {
+                // Open the ConvexHullVisualization class
+                new ConvexHullVisualization();
+            }
+        });
 
 
         GRAHAM_SCAN_BUTTON.setFocusable(false);
@@ -67,6 +94,7 @@ public class HomeScreen extends JFrame {
         LINE_ELIMINATION.setFont(new Font("AERIAL", Font.BOLD, 15));
         LINE_ELIMINATION.setForeground(new Color(181, 255, 0));
         LINE_ELIMINATION.setBorderPainted(false);
+//        LINE_ELIMINATION.addActionListener(e -> new DrawingApp());
 
         RESEARCH_BUTTON.setFocusable(false);
         RESEARCH_BUTTON.setBackground(new Color(0, 19, 23));

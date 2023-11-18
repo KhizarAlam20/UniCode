@@ -1,6 +1,5 @@
 package SCD.GUI_TASK.Animate;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -53,15 +52,18 @@ public class LineIntersectionGUI extends JFrame {
             if (i != currentIndex && doIntersect(lines[currentIndex], lines[i])) {
                 return true; // Lines intersect
             }
-
         }
         return false; // Lines do not intersect
     }
 
     private boolean doIntersect(int[] line1, int[] line2) {
-        Line2D l1 = new Line2D.Double(line1[0], line1[1], line1[2], line1[3]);
-        Line2D l2 = new Line2D.Double(line2[0], line2[1], line2[2], line2[3]);
-        return l1.intersectsLine(l2);
+        return (isClockwise(line1[0], line1[1], line2) != isClockwise(line1[2], line1[3], line2))
+                && (isClockwise(line2[0], line2[1], line1) != isClockwise(line2[2], line2[3], line1));
+    }
+
+    private boolean isClockwise(int x, int y, int[] line) {
+        int crossProduct = (line[2] - line[0]) * (y - line[1]) - (line[3] - line[1]) * (x - line[0]);
+        return crossProduct > 0;
     }
 
     public static void main(String[] args) {
@@ -73,7 +75,7 @@ public class LineIntersectionGUI extends JFrame {
                     {700, 300, 750, 350},
                     {700, 350, 750, 300},
 
-// Non-intersecting lines
+                    // Non-intersecting lines
                     {250, 50, 400, 200},
                     {250, 200, 400, 50},
                     {350, 100, 500, 250},
