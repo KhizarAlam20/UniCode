@@ -1,4 +1,4 @@
-package SCD.GUI_TASK.Animate;
+package SCD.GUI_TASK.ConvexHullAlgorithms;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

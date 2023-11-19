@@ -1,7 +1,5 @@
 package SCD.GUI_TASK.ConvexHullAlgorithms;
 
-import SCD.GUI_TASK.Animate.ConvexHullVisualization;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -101,6 +99,7 @@ public class HomeScreen extends JFrame {
         RESEARCH_BUTTON.setFont(new Font("AERIAL", Font.BOLD, 15));
         RESEARCH_BUTTON.setForeground(new Color(181, 255, 0));
         RESEARCH_BUTTON.setBorderPainted(false);
+        RESEARCH_BUTTON.addActionListener(e-> new ConvexHullApp());
 
 
 //        BRUTE_FORCE_BUTTON.addActionListener(e -> new buteForce());
