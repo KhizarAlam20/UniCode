@@ -1,6 +1,6 @@
 package SCD.GUI_TASK.ConvexHullAlgorithms;
 
-
+//ccw method
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

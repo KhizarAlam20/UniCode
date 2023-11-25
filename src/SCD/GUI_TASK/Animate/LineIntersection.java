@@ -1,53 +1,41 @@
 package SCD.GUI_TASK.Animate;
 
 public class LineIntersection {
-
-    public static void linesIntersect(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
-        double m1 = (double)(y2 - y1) / (x2 - x1);
-        double m2 = (double)(y4 - y3) / (x4 - x3);
-
-
-        if (m1 == m2) {
-            if (y1 - m1 * x1 == y3 - m2 * x3) {
-                System.out.println("Lines are the same (technically intersect everywhere).");
-            } else {
-                System.out.println("Lines are parallel and do not intersect.");
-            }
-        } else {
-            double b1 = y1 - m1 * x1;
-            double b2 = y3 - m2 * x3;
-
-            if (b1 == b2) {
-                System.out.println("Lines intersect.");
-            } else {
-                System.out.println("Lines do not intersect.");
-            }
-        }
-    }
-
-    public static void checkIntersections(int[][] lines) {
-        int numLines = lines.length;
-
-        for (int i = 0; i < numLines; i++) {
-            for (int j = i + 1; j < numLines; j++) {
-                System.out.println("Checking lines " + (i + 1) + " and " + (j + 1) + ":");
-                linesIntersect(lines[i][0], lines[i][1], lines[i][2], lines[i][3],
-                        lines[j][0], lines[j][1], lines[j][2], lines[j][3]);
-                System.out.println();
-            }
-        }
-    }
-
-    // Example usage
     public static void main(String[] args) {
-        int[][] lines = {
-                {1, 1, 4, 4},
-                {1, 4, 4, 1},
-                {2, 2, 5, 5},
-                {2, 5, 5, 2}
-        };
+        // Line 1
+        int x1_line1 = 1, y1_line1 = 2;
+        int x2_line1 = 3, y2_line1 = 1;
 
-        checkIntersections(lines);
+        // Line 2
+        int x1_line2 = 4, y1_line2 = 1;
+        int x2_line2 = 2, y2_line2 = 3;
+
+        // Calculate slopes
+        double slopeLine1 = calculateSlope(x1_line1, y1_line1, x2_line1, y2_line1);
+        double slopeLine2 = calculateSlope(x1_line2, y1_line2, x2_line2, y2_line2);
+
+        // Check if lines intersect
+        if (areSlopesEqual(slopeLine1, slopeLine2)) {
+            System.out.println("Lines are either parallel or coincident.");
+        } else {
+            System.out.println("Lines intersect.");
+        }
+    }
+
+    // Function to calculate slope
+    private static double calculateSlope(int x1, int y1, int x2, int y2) {
+        if (x2 - x1 == 0) {
+            // Vertical line, slope is undefined
+            return Double.POSITIVE_INFINITY;
+        } else {
+            return (double) (y2 - y1) / (x2 - x1);
+        }
+    }
+
+    // Function to check if slopes are equal, handling vertical lines
+    private static boolean areSlopesEqual(double slope1, double slope2) {
+        return slope1 == slope2 || Double.isInfinite(slope1) && Double.isInfinite(slope2);
     }
 }
+
 

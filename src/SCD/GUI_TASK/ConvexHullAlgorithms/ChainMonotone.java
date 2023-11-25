@@ -1,5 +1,7 @@
 package SCD.GUI_TASK.ConvexHullAlgorithms;
 
+//monotone
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,13 +11,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class ConvexHullApp extends JFrame {
+public class ChainMonotone extends JFrame {
 
     private ArrayList<Point2D.Double> points;
     private ArrayList<Point2D.Double> convexHull;
     private int animationIndex;
 
-    public ConvexHullApp() {
+    public ChainMonotone() {
         points = new ArrayList<>();
         convexHull = new ArrayList<>();
         animationIndex = 0;
@@ -141,6 +143,6 @@ public class ConvexHullApp extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new ConvexHullApp());
+        SwingUtilities.invokeLater(() -> new ChainMonotone());
     }
 }
