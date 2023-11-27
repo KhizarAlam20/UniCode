@@ -57,18 +57,18 @@ public class HomeScreen extends JFrame {
             );
 
             if (choice == 0) {
-                // Open the EnterPoint class
-                DrawingApp drawingApp = new DrawingApp();
+                //CCW
+                LineIntersectionCCW drawingApp = new LineIntersectionCCW();
                 drawingApp.setVisible(true);
 
             } else if (choice == 1) {
-                // Open the ConvexHullVisualization class
+                //Slope
               SlopeMethod slopeMethod = new SlopeMethod();
                 slopeMethod.setVisible(true);
 
 
             }else if (choice == 2) {
-                // Open the ConvexHullVisualization class
+                // Vector
                 LineIntersectionUsingVectorProduct LineIntersectionUsingVectorProduct = new LineIntersectionUsingVectorProduct();
                 LineIntersectionUsingVectorProduct.setVisible(true);
             }
@@ -123,6 +123,10 @@ public class HomeScreen extends JFrame {
         LINE_ELIMINATION.setBackground(new Color(0, 19, 23));
         LINE_ELIMINATION.setFont(new Font("AERIAL", Font.BOLD, 15));
         LINE_ELIMINATION.setForeground(new Color(181, 255, 0));
+        LINE_ELIMINATION.addActionListener(e-> {
+            QuickHullApp QuickHullApp = new QuickHullApp();
+            QuickHullApp.setVisible(true);
+        });
         LINE_ELIMINATION.setBorderPainted(false);
 
         RESEARCH_BUTTON.setFocusable(false);

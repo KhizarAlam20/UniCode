@@ -12,11 +12,11 @@ import java.util.ArrayList;
 public class buteForce extends JFrame {
     private boolean drawRedLines = true;
     JLabel l, seconds, milliseconds;
+    private long startTime;
     boolean convexHullCompleted = false;
     private ArrayList<Integer> xArray;
     private ArrayList<Integer> yArray;
     private ArrayList<Point> dataPoints;
-    private long startTime;
     private int animationStep = 0;
     int count = 0;
     private Timer animationTimer;

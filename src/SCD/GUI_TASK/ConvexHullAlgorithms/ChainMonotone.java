@@ -14,6 +14,8 @@ import java.util.Comparator;
 public class ChainMonotone extends JFrame {
 
     private ArrayList<Point2D.Double> points;
+    JLabel l, seconds, milliseconds;
+    public long startTime;
     private ArrayList<Point2D.Double> convexHull;
     private int animationIndex;
 
@@ -27,15 +29,52 @@ public class ChainMonotone extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JButton generateButton = new JButton("Generate Convex Hull");
-        generateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                generateRandomPoints(20);
-                computeConvexHull();
-                animationIndex = 0; // Reset animation index
-                startAnimation();
-            }
+        generateButton.addActionListener(e -> {
+            generateRandomPoints(20);
+            computeConvexHull();
+            animationIndex = 0; // Reset animation index
+            startAnimation();
         });
+        JLabel l = new JLabel("0");
+        l.setBounds(300, 0, 200, 80);
+        l.setFont(new Font("AERIAL", Font.BOLD, 25));
+        l.setForeground(new Color(181, 255, 0));
+
+        JLabel t = new JLabel("Total Time ");
+        t.setBounds(50, 355, 200, 80);
+        t.setFont(new Font("AERIAL", Font.BOLD, 18));
+        t.setForeground(new Color(181, 255, 0));
+
+        JLabel milli = new JLabel("Milliseconds : ");
+        milli.setBounds(50, 375, 200, 80);
+        milli.setFont(new Font("AERIAL", Font.BOLD, 14));
+        milli.setForeground(new Color(181, 255, 0));
+
+        milliseconds = new JLabel("0");
+        milliseconds.setBounds(170, 375, 200, 80);
+        milliseconds.setFont(new Font("AERIAL", Font.BOLD, 14));
+        milliseconds.setForeground(new Color(181, 255, 0));
+
+        JLabel sec = new JLabel("Seconds : ");
+        sec.setBounds(50, 395, 200, 80);
+        sec.setFont(new Font("AERIAL", Font.BOLD, 14));
+        sec.setForeground(new Color(181, 255, 0));
+
+
+        seconds = new JLabel("0");
+        seconds.setBounds(170, 395, 200, 80);
+        seconds.setFont(new Font("AERIAL", Font.BOLD, 14));
+        seconds.setForeground(new Color(181, 255, 0));
+
+        JButton back = new JButton("Back");
+        back.setBounds(400, 395, 90, 25);
+        back.setFocusable(false);
+        back.setBackground(new Color(0, 19, 23));
+        back.setFont(new Font("AERIAL", Font.BOLD, 15));
+        back.setForeground(new Color(181, 255, 0));
+        back.setBorderPainted(false);
+        back.addActionListener(e -> new HomeScreen());
+
 
         // Button settings
         generateButton.setFocusable(false);
@@ -44,13 +83,29 @@ public class ChainMonotone extends JFrame {
         generateButton.setForeground(new Color(181, 255, 0));
         generateButton.setBorderPainted(false);
 
-        add(generateButton, BorderLayout.SOUTH);
+        // Set layout to null
+        setLayout(null);
+
+        // Set button bounds
+        generateButton.setBounds(10, 520, 200, 30);
 
         // Panel color
         getContentPane().setBackground(new Color(0, 19, 23));
 
+        // Add button to the frame
+        add(l);
+        add(milli);
+        add(back);
+        add(milliseconds);
+        add(seconds);
+        add(sec);
+        add(t);
+        add(generateButton);
+
         setVisible(true);
+        startTime = System.currentTimeMillis();
     }
+
 
     private void generateRandomPoints(int numPoints) {
         points.clear();
@@ -61,7 +116,7 @@ public class ChainMonotone extends JFrame {
         int minY = 50;
         int maxY = 450;
 
-        for (int i = 0; i < numPoints; i++) {
+        for (int i = 0; i < numPoints+10; i++) {
             double x = minX + Math.random() * (maxX - minX);
             double y = minY + Math.random() * (maxY - minY);
             points.add(new Point2D.Double(x, y));
@@ -76,8 +131,7 @@ public class ChainMonotone extends JFrame {
 
         // Construct upper hull
         for (Point2D.Double point : points) {
-            while (convexHull.size() >= 2 &&
-                    crossProduct(convexHull.get(convexHull.size() - 2), convexHull.get(convexHull.size() - 1), point) <= 0) {
+            while (convexHull.size() >= 2 &&  crossProduct(convexHull.get(convexHull.size() - 2), convexHull.get(convexHull.size() - 1), point) <= 0) {
                 convexHull.remove(convexHull.size() - 1);
             }
             convexHull.add(point);
@@ -111,6 +165,11 @@ public class ChainMonotone extends JFrame {
                     animationIndex++;
                 } else {
                     ((Timer) e.getSource()).stop(); // Stop the timer when animation is complete
+                    long endTime = System.currentTimeMillis();  // Record the end time
+                    long elapsedTime = endTime - startTime;
+                    System.out.println("Convex Hull Computation Time: " + elapsedTime + " milliseconds or " + (elapsedTime) / 1000 + " Seconds ");
+                    milliseconds.setText(String.valueOf(elapsedTime) + "  milliseconds");
+                    seconds.setText(String.valueOf((elapsedTime) / 1000) + "  seconds");
                 }
             }
         });

@@ -1,6 +1,5 @@
 package SCD.GUI_TASK.ConvexHullAlgorithms;
 
-//ccw method
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,14 +8,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class DrawingApp extends JFrame {
+public class LineIntersectionCCW extends JFrame {
     private JPanel drawingPanel;
     private JButton startButton;
+    private JButton clearButton; // Added Clear button
     public ArrayList<Integer> xPoints;
     public ArrayList<Integer> yPoints;
     private boolean showLines; // Flag to control whether to show lines or not
 
-    public DrawingApp() {
+    public LineIntersectionCCW() {
         xPoints = new ArrayList<>();
         yPoints = new ArrayList<>();
         showLines = false;
@@ -40,9 +40,9 @@ public class DrawingApp extends JFrame {
                         int y2 = yPoints.get(i + 1);
 
                         if (doLinesIntersect(x1, y1, x2, y2)) {
-                            g.setColor(Color.RED); // Set color to blue if lines intersect
+                            g.setColor(Color.RED);
                         } else {
-                            g.setColor(Color.GREEN); // Set color to green if lines do not intersect
+                            g.setColor(Color.GREEN);
                         }
 
                         g.drawLine(x1, y1, x2, y2);
@@ -74,12 +74,35 @@ public class DrawingApp extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showLines = true;
-                drawingPanel.repaint();
-                printPoints();
+                if (xPoints.size() > 4 || yPoints.size() > 4) {
+                    // Display an error message if the number of points is not four
+                    JOptionPane.showMessageDialog(LineIntersectionCCW.this, "Please provide exactly four points.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    showLines = true;
+                    drawingPanel.repaint();
+                    printPoints();
+                }
             }
         });
         add(startButton, BorderLayout.SOUTH);
+
+        clearButton = new JButton("Clear");
+        clearButton.setFocusable(false);
+        clearButton.setBackground(new Color(0, 19, 23));
+        clearButton.setFont(new Font("Arial", Font.BOLD, 15));
+        clearButton.setForeground(new Color(255, 0, 0));
+        clearButton.setBorderPainted(false);
+
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                xPoints.clear();
+                yPoints.clear();
+                showLines = false;
+                drawingPanel.repaint();
+            }
+        });
+        add(clearButton, BorderLayout.NORTH);
 
         pack();
         setLocationRelativeTo(null);
@@ -169,7 +192,7 @@ public class DrawingApp extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new DrawingApp().setVisible(true);
+                new LineIntersectionCCW().setVisible(true);
             }
         });
     }

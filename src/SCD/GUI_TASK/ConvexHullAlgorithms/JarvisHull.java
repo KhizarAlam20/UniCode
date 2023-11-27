@@ -16,7 +16,7 @@ public class JarvisHull extends JFrame {
     public JarvisHull() {
         this.dataPoints = new ArrayList<>();
 
-        setTitle("Convex Hull Visualization");
+        setTitle("Jarvis Hull");
         setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

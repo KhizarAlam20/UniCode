@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 public class MainServ {
     public static void main(String[] args) throws IOException, URISyntaxException {
         // Assuming your web app is running on http://localhost:8080/YourWebAppName
-        String webAppUrl = "http://localhost:9494/MyWebApp/";
+        String webAppUrl = "http://localhost:9494/HelloWorld/";
 
         try {
             // Open the default web browser with the specified URL

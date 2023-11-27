@@ -181,7 +181,7 @@ public class GrahamScan extends JFrame {
                 if (animationStep <= dataPoints.size() + 2) {
                     repaint();
                     try {
-                        Thread.sleep(500); // Adjust the delay time as needed
+                        Thread.sleep(500);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }

@@ -1,13 +1,13 @@
 package SCD.GUI_TASK.Animate;
 
-import SCD.GUI_TASK.ConvexHullAlgorithms.DrawingApp;
+import SCD.GUI_TASK.ConvexHullAlgorithms.LineIntersectionCCW;
 
 public class Timers {
     private static boolean condition = true;
 
     public static void main(String[] args) {
 
-        DrawingApp d = new DrawingApp();
+        LineIntersectionCCW d = new LineIntersectionCCW();
         // Create a separate thread for the loop
         Thread loopThread = new Thread(() -> {
             for (int counter = 0; condition && counter < 10; counter++) {
