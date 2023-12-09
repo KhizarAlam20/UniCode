@@ -22,7 +22,7 @@ import java.util.ArrayList;
             linesIntersect = false;
 
             setTitle("Drawing App");
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             setLayout(new BorderLayout());
 
             drawingPanel = new JPanel() {

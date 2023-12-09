@@ -22,7 +22,7 @@ public class LineIntersectionCCW extends JFrame {
         showLines = false;
 
         setTitle("Drawing App");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         drawingPanel = new JPanel() {

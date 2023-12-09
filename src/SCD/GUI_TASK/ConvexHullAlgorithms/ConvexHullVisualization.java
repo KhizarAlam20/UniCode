@@ -10,16 +10,16 @@ import java.util.ArrayList;
 public class ConvexHullVisualization extends JFrame {
     private ArrayList<Point> dataPoints;
     private int animationStep = 0;
-    JLabel l, seconds, milliseconds;
+    JLabel l, seconds, milliseconds,tc;
     private long startTime;
     private Timer animationTimer;
 
     public ConvexHullVisualization() {
         this.dataPoints = new ArrayList<>();
 
-        setTitle("Convex Hull Visualization");
+        setTitle("BRUTE FORCE K213868");
         setSize(600, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JLabel l = new JLabel("0");
@@ -52,6 +52,11 @@ public class ConvexHullVisualization extends JFrame {
         seconds.setBounds(170, 395, 200, 80);
         seconds.setFont(new Font("AERIAL", Font.BOLD, 14));
         seconds.setForeground(new Color(181, 255, 0));
+
+        tc = new JLabel("0");
+        tc.setBounds(280, 395, 200, 80);
+        tc.setFont(new Font("AERIAL", Font.BOLD, 14));
+        tc.setForeground(new Color(181, 255, 0));
 
         JButton back = new JButton("Back");
         back.setBounds(400, 395, 90, 25);
@@ -98,6 +103,7 @@ public class ConvexHullVisualization extends JFrame {
 
         graphPanel.add(runButton);
         graphPanel.add(l);
+        graphPanel.add(tc);
         graphPanel.add(milli);
         graphPanel.add(back);
         graphPanel.add(milliseconds);
@@ -169,7 +175,7 @@ public class ConvexHullVisualization extends JFrame {
 
         startTime = System.currentTimeMillis();
 
-        animationTimer = new Timer(1000, new ActionListener() {
+        animationTimer = new Timer(300, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 animationStep++;
@@ -182,6 +188,7 @@ public class ConvexHullVisualization extends JFrame {
                     System.out.println("Convex Hull Computation Time: " + elapsedTime + " milliseconds or " + (elapsedTime) / 1000 + " Seconds ");
                     milliseconds.setText(String.valueOf(elapsedTime) + "  milliseconds");
                     seconds.setText(String.valueOf((elapsedTime) / 1000) + "  seconds");
+                    tc.setText("O(n^3)");
                 }
             }
         });

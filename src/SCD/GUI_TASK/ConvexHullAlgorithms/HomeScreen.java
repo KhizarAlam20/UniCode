@@ -11,6 +11,8 @@ public class HomeScreen extends JFrame {
             JARVIS_BUTTON,
             LINE_ELIMINATION,
             RESEARCH_BUTTON;
+    private int animationStep = 0;
+    int count = 0;
 
     HomeScreen() {
         setTitle("CONVEX HULL K213868");
@@ -32,9 +34,13 @@ public class HomeScreen extends JFrame {
         LINE_INTERSECTIONS = new JButton("Check Intersections");
         BRUTE_FORCE_BUTTON = new JButton("Brute Force");
         GRAHAM_SCAN_BUTTON = new JButton("Graham Scan");
-        GRAHAM_SCAN_BUTTON.addActionListener(e -> { new GrahamScan();});
+        GRAHAM_SCAN_BUTTON.addActionListener(e -> {
+            new GrahamScan();
+        });
         JARVIS_BUTTON = new JButton("Jarvis Marsh");
-        JARVIS_BUTTON.addActionListener(e -> {new JarvisHull();});
+        JARVIS_BUTTON.addActionListener(e -> {
+            new JarvisHull();
+        });
         LINE_ELIMINATION = new JButton("Elimination");
         RESEARCH_BUTTON = new JButton("Research");
 
@@ -44,7 +50,7 @@ public class HomeScreen extends JFrame {
         LINE_INTERSECTIONS.setForeground(new Color(181, 255, 0));
         LINE_INTERSECTIONS.setBorderPainted(false);
         LINE_INTERSECTIONS.addActionListener(e -> {
-            String[] options = {"CCW Method", "SLOPE Method","VECTOR Method"};
+            String[] options = {"CCW Method", "SLOPE Method", "VECTOR Method"};
             int choice = JOptionPane.showOptionDialog(
                     this,
                     "Choose a method:",
@@ -63,11 +69,11 @@ public class HomeScreen extends JFrame {
 
             } else if (choice == 1) {
                 //Slope
-              SlopeMethod slopeMethod = new SlopeMethod();
+                SlopeMethod slopeMethod = new SlopeMethod();
                 slopeMethod.setVisible(true);
 
 
-            }else if (choice == 2) {
+            } else if (choice == 2) {
                 // Vector
                 LineIntersectionUsingVectorProduct LineIntersectionUsingVectorProduct = new LineIntersectionUsingVectorProduct();
                 LineIntersectionUsingVectorProduct.setVisible(true);
@@ -108,7 +114,7 @@ public class HomeScreen extends JFrame {
         GRAHAM_SCAN_BUTTON.setFont(new Font("AERIAL", Font.BOLD, 15));
         GRAHAM_SCAN_BUTTON.setForeground(new Color(181, 255, 0));
         GRAHAM_SCAN_BUTTON.setBorderPainted(false);
-        GRAHAM_SCAN_BUTTON.addActionListener(e-> {
+        GRAHAM_SCAN_BUTTON.addActionListener(e -> {
             GrahamScan GrahamScan = new GrahamScan();
             GrahamScan.setVisible(true);
         });
@@ -123,7 +129,7 @@ public class HomeScreen extends JFrame {
         LINE_ELIMINATION.setBackground(new Color(0, 19, 23));
         LINE_ELIMINATION.setFont(new Font("AERIAL", Font.BOLD, 15));
         LINE_ELIMINATION.setForeground(new Color(181, 255, 0));
-        LINE_ELIMINATION.addActionListener(e-> {
+        LINE_ELIMINATION.addActionListener(e -> {
             QuickHullApp QuickHullApp = new QuickHullApp();
             QuickHullApp.setVisible(true);
         });
@@ -133,9 +139,9 @@ public class HomeScreen extends JFrame {
         RESEARCH_BUTTON.setBackground(new Color(0, 19, 23));
         RESEARCH_BUTTON.setFont(new Font("AERIAL", Font.BOLD, 15));
         RESEARCH_BUTTON.setForeground(new Color(181, 255, 0));
-        RESEARCH_BUTTON.addActionListener(e-> {
-           ChainMonotone ChainMonotone = new ChainMonotone();
-           ChainMonotone.setVisible(true);
+        RESEARCH_BUTTON.addActionListener(e -> {
+            ChainMonotone ChainMonotone = new ChainMonotone();
+            ChainMonotone.setVisible(true);
         });
         RESEARCH_BUTTON.setBorderPainted(false);
 

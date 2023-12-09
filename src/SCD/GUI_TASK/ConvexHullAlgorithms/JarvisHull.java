@@ -1,4 +1,6 @@
 package SCD.GUI_TASK.ConvexHullAlgorithms;
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,16 +12,53 @@ import java.util.ArrayList;
 public class JarvisHull extends JFrame {
     private ArrayList<Point> dataPoints;
     private long startTime;
+    JLabel l, seconds, milliseconds,tc;
     private int animationStep = 0;
     private Timer animationTimer;
 
     public JarvisHull() {
         this.dataPoints = new ArrayList<>();
 
-        setTitle("Jarvis Hull");
+        setTitle("JARVIS HULL K213868");
         setSize(600, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        JLabel l = new JLabel("0");
+        l.setBounds(300, 0, 200, 80);
+        l.setFont(new Font("AERIAL", Font.BOLD, 25));
+        l.setForeground(new Color(181, 255, 0));
+
+        JLabel t = new JLabel("Total Time ");
+        t.setBounds(50, 400, 200, 80);
+        t.setFont(new Font("AERIAL", Font.BOLD, 18));
+        t.setForeground(new Color(181, 255, 0));
+
+        JLabel milli = new JLabel("Milliseconds : ");
+        milli.setBounds(50, 425, 200, 80);
+        milli.setFont(new Font("AERIAL", Font.BOLD, 14));
+        milli.setForeground(new Color(181, 255, 0));
+
+        milliseconds = new JLabel("0");
+        milliseconds.setBounds(170, 425, 200, 80);
+        milliseconds.setFont(new Font("AERIAL", Font.BOLD, 14));
+        milliseconds.setForeground(new Color(181, 255, 0));
+
+        JLabel sec = new JLabel("Seconds : ");
+        sec.setBounds(50, 445, 200, 80);
+        sec.setFont(new Font("AERIAL", Font.BOLD, 14));
+        sec.setForeground(new Color(181, 255, 0));
+
+
+        seconds = new JLabel("0");
+        seconds.setBounds(170, 445, 200, 80);
+        seconds.setFont(new Font("AERIAL", Font.BOLD, 14));
+        seconds.setForeground(new Color(181, 255, 0));
+
+        tc = new JLabel("0");
+        tc.setBounds(280, 395, 200, 80);
+        tc.setFont(new Font("AERIAL", Font.BOLD, 14));
+        tc.setForeground(new Color(181, 255, 0));
 
         JPanel graphPanel = new JPanel() {
             @Override
@@ -56,6 +95,15 @@ public class JarvisHull extends JFrame {
         runButton.addActionListener(e -> startConvexHullAlgorithm());
 
         graphPanel.add(runButton);
+        graphPanel.add(l);
+        graphPanel.add(milli);
+//        graphPanel.add(back);
+        graphPanel.add(milliseconds);
+        graphPanel.add(seconds);
+        graphPanel.add(sec);
+        graphPanel.add(t);
+        graphPanel.add(tc);
+
         add(graphPanel);
         setVisible(true);
     }
@@ -137,6 +185,8 @@ public class JarvisHull extends JFrame {
 
                     System.out.println("Convex Hull Computation Time: " + elapsedTime + " milliseconds");
                     JOptionPane.showMessageDialog(null, "Convex Hull Computation Time: " + elapsedTime + " milliseconds");
+                    tc.setText(String.valueOf("O(n^h)"));
+
                 }
             }
         });

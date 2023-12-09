@@ -13,20 +13,21 @@ import java.util.List;
 public class QuickHullApp extends JFrame {
     private List<Point2D.Double> points;
     private List<Point2D.Double> convexHull;
-    JLabel l, seconds, milliseconds;
+    JLabel l, seconds, milliseconds, tc;
     private long startTime;
     private boolean showConvexHull;
+    private int animationIndex;
 
     public QuickHullApp() {
         points = new ArrayList<>();
         convexHull = new ArrayList<>();
         showConvexHull = false;
+        animationIndex = 0;
 
         setTitle("Quick Elimination");
         setSize(600, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
 
         JLabel l = new JLabel("0");
         l.setBounds(300, 0, 200, 80);
@@ -53,45 +54,54 @@ public class QuickHullApp extends JFrame {
         sec.setFont(new Font("AERIAL", Font.BOLD, 14));
         sec.setForeground(new Color(181, 255, 0));
 
-
         seconds = new JLabel("0");
         seconds.setBounds(170, 395, 200, 80);
         seconds.setFont(new Font("AERIAL", Font.BOLD, 14));
         seconds.setForeground(new Color(181, 255, 0));
 
+        tc = new JLabel("0");
+        tc.setBounds(280, 395, 200, 80);
+        tc.setFont(new Font("AERIAL", Font.BOLD, 14));
+        tc.setForeground(new Color(181, 255, 0));
+
         JButton back = new JButton("Back");
         back.setBounds(400, 395, 90, 25);
         back.setFocusable(false);
-        back.setBackground(new Color(0, 19, 23));
-        back.setFont(new Font("AERIAL", Font.BOLD, 15));
+        back.setBackground(new Color(0, 8, 9));
         back.setForeground(new Color(181, 255, 0));
+        back.setFont(new Font("AERIAL", Font.BOLD, 15));
         back.setBorderPainted(false);
         back.addActionListener(e -> new HomeScreen());
-
 
         MyPanel panel = new MyPanel();
         panel.addMouseListener(new MyMouseListener());
         add(panel);
 
         JButton startButton = new JButton("Start");
+        startButton.setBackground(new Color(0, 8, 9));
+        startButton.setForeground(new Color(181, 255, 0));
         startButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                tc.setText("0");
                 showConvexHull = true;
                 convexHull = quickHull(points);
-                repaint();
+                animationIndex = 0;
+                startAnimation();
             }
         });
 
+        startTime = System.currentTimeMillis();
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
-        buttonPanel.add(l);
-        buttonPanel.add(milli);
+        buttonPanel.setBackground(new Color(0, 19, 23));
         buttonPanel.add(back);
-        buttonPanel.add(milliseconds);
         buttonPanel.add(seconds);
-        buttonPanel.add(sec);
+        buttonPanel.add(tc);
         buttonPanel.add(t);
+
         add(buttonPanel, BorderLayout.SOUTH);
 
         setLocationRelativeTo(null);
@@ -104,23 +114,19 @@ public class QuickHullApp extends JFrame {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
 
-            // Set panel background color
             setBackground(new Color(0, 19, 23));
 
-            // Draw points
-            g2d.setColor(Color.BLACK);
+            g2d.setColor(Color.RED);
             for (Point2D.Double point : points) {
                 int x = (int) point.getX();
                 int y = (int) point.getY();
                 g2d.fillOval(x - 5, y - 5, 10, 10);
             }
 
-            // Draw convex hull if requested
             if (showConvexHull) {
-                // Set line color
                 g2d.setColor(new Color(181, 255, 0));
 
-                int n = convexHull.size();
+                int n = Math.min(animationIndex + 1, convexHull.size());
                 for (int i = 0; i < n; i++) {
                     int next = (i + 1) % n;
                     int x1 = (int) convexHull.get(i).getX();
@@ -132,7 +138,6 @@ public class QuickHullApp extends JFrame {
             }
         }
     }
-
 
     private class MyMouseListener extends MouseAdapter {
         @Override
@@ -146,6 +151,28 @@ public class QuickHullApp extends JFrame {
         return QuickHullAlgorithm.quickHull(inputPoints);
     }
 
+    private void startAnimation() {
+        Timer timer = new Timer(400, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (animationIndex < convexHull.size()) {
+                    repaint();
+                    animationIndex++;
+                } else {
+                    ((Timer) e.getSource()).stop();
+                    long endTime = System.currentTimeMillis();
+                    long elapsedTime = endTime - startTime;
+                    System.out.println("Convex Hull Computation Time: " + elapsedTime + " milliseconds or " + (elapsedTime) / 1000 + " Seconds ");
+//                    milliseconds.setText(String.valueOf(elapsedTime) + "  milliseconds");
+                    seconds.setText(String.valueOf((elapsedTime) + "  milliseconds"));
+                    tc.setText(String.valueOf("O(n.log.n)"));
+                }
+            }
+        });
+
+        timer.start();
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new QuickHullApp());
     }
@@ -155,13 +182,11 @@ class QuickHullAlgorithm {
 
     public static List<Point2D.Double> quickHull(List<Point2D.Double> inputPoints) {
         if (inputPoints.size() < 3) {
-            // Convex hull is not possible with less than 3 points
             return new ArrayList<>(inputPoints);
         }
 
         List<Point2D.Double> convexHull = new ArrayList<>();
 
-        // Find the points with minimum and maximum x-coordinates
         Point2D.Double minX = inputPoints.get(0);
         Point2D.Double maxX = inputPoints.get(0);
         for (Point2D.Double point : inputPoints) {
@@ -176,7 +201,6 @@ class QuickHullAlgorithm {
         convexHull.add(minX);
         convexHull.add(maxX);
 
-        // Divide the points into two sets based on their position relative to the line formed by minX and maxX
         List<Point2D.Double> pointsAboveLine = new ArrayList<>();
         List<Point2D.Double> pointsBelowLine = new ArrayList<>();
 

@@ -14,7 +14,7 @@ public class EnterPoints extends JFrame {
     EnterPoints() {
         setTitle("CONVEX HULL K213868");
         setSize(300, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel p = new JPanel();

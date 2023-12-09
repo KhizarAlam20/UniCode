@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class buteForce extends JFrame {
     private boolean drawRedLines = true;
-    JLabel l, seconds, milliseconds;
+    JLabel l, seconds, milliseconds,tc;
     private long startTime;
     boolean convexHullCompleted = false;
     private ArrayList<Integer> xArray;
@@ -30,9 +30,9 @@ public class buteForce extends JFrame {
             dataPoints.add(new Point(xArray.get(i), yArray.get(i)));
         }
 
-        setTitle("CONVEX HULL K213868");
+        setTitle("BRUTE FORCE K213868");
         setSize(600, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JLabel l = new JLabel("0");
@@ -66,6 +66,11 @@ public class buteForce extends JFrame {
         seconds.setFont(new Font("AERIAL", Font.BOLD, 14));
         seconds.setForeground(new Color(181, 255, 0));
 
+        tc = new JLabel("0");
+        tc.setBounds(280, 395, 200, 80);
+        tc.setFont(new Font("AERIAL", Font.BOLD, 14));
+        tc.setForeground(new Color(181, 255, 0));
+
         JButton back = new JButton("Back");
         back.setBounds(400, 395, 90, 25);
         back.setFocusable(false);
@@ -92,6 +97,7 @@ public class buteForce extends JFrame {
         graphPanel.add(seconds);
         graphPanel.add(sec);
         graphPanel.add(t);
+        graphPanel.add(tc);
 
         graphPanel.setBackground(new Color(1, 28, 35));
         add(graphPanel);
@@ -115,6 +121,7 @@ public class buteForce extends JFrame {
                     System.out.println("Convex Hull Computation Time: " + elapsedTime + " milliseconds or " + (elapsedTime) / 1000 + " Seconds ");
                     milliseconds.setText(String.valueOf(elapsedTime) + "  milliseconds");
                     seconds.setText(String.valueOf((elapsedTime) / 1000) + "  seconds");
+                    tc.setText(String.valueOf("O(n^3)"));
 
 
                 }
